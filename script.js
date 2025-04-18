@@ -4,12 +4,12 @@ document.title = "Etch-A-Sketch"
 const noRows = 16;
 const noColumns = 16;
 
-// Sketch on-off check
+// Sketch Mode
 let sketchStatus = false;
 const sketchButton = document.createElement("input");
 sketchButton.type = 'checkbox';
 const sketchLabel = document.createElement("label");
-sketchLabel.textContent = 'Grid on/off'
+sketchLabel.textContent = 'Sketch Mode'
 
 // Add event listener to the checkbox to detect changes 
 sketchButton.addEventListener('change', function() {
@@ -17,12 +17,54 @@ sketchButton.addEventListener('change', function() {
     let tiles = document.querySelectorAll('.tile');
     tiles.forEach(til => {
         if(sketchButton.checked) {
-            til.addEventListener('mouseenter', mouseEnter);
-            til.addEventListener('mouseleave', mouseLeave);
+            til.addEventListener('mouseover', sketchMouseLeave);
             }
         else {
-            til.removeEventListener('mouseenter', mouseEnter);
-            til.removeEventListener('mouseleave', mouseLeave);          
+            til.removeEventListener('mouseover', sketchMouseLeave);          
+        }
+    });
+
+});
+
+// Select Mode
+let pencilStatus = false;
+const pencilButton = document.createElement("input");
+pencilButton.type = 'checkbox';
+const pencilLabel = document.createElement("label");
+pencilLabel.textContent = 'Select Mode'
+
+// Add event listener to the checkbox to detect changes 
+pencilButton.addEventListener('change', function() {
+    // Add the hover effect
+    let tiles = document.querySelectorAll('.tile');
+    tiles.forEach(til => {
+        if(pencilButton.checked) {
+            til.addEventListener('click', pencilMouseClick);
+            }
+        else {
+            til.removeEventListener('click', pencilMouseClick);          
+        }
+    });
+
+});
+
+// Eraser
+let eraseStatus = false;
+const eraseButton = document.createElement("input");
+eraseButton.type = 'checkbox';
+const eraseLabel = document.createElement("label");
+eraseLabel.textContent = 'Eraser'
+
+// Add event listener to the checkbox to detect changes 
+eraseButton.addEventListener('change', function() {
+    // Add the hover effect
+    let tiles = document.querySelectorAll('.tile');
+    tiles.forEach(til => {
+        if(eraseButton.checked) {
+            til.addEventListener('mousedown', eraser);
+            }
+        else {
+            til.removeEventListener('mousedown', eraser);          
         }
     });
 
@@ -30,6 +72,10 @@ sketchButton.addEventListener('change', function() {
 
 document.body.appendChild(sketchButton);
 document.body.appendChild(sketchLabel);
+document.body.appendChild(pencilButton);
+document.body.appendChild(pencilLabel);
+document.body.appendChild(eraseButton);
+document.body.appendChild(eraseLabel);
 
 // Create the grid
 function createGrid() {
@@ -58,11 +104,19 @@ function createGrid() {
     document.body.appendChild(container);
 }
 
-function mouseEnter() {
+function sketchMouseEnter() {
     this.style.backgroundColor = 'skyblue';
 }
 
-function mouseLeave() {
+function sketchMouseLeave() {
     this.style.backgroundColor = 'red';
+}
+
+function pencilMouseClick() {
+    this.style.backgroundColor = 'red';
+}
+
+function eraser() {
+    this.style.backgroundColor = 'white';
 }
 createGrid();
