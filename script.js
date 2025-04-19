@@ -3,6 +3,7 @@ document.title = "Etch-A-Sketch"
 
 const noRows = 16;
 const noColumns = 16;
+const defaultColor = 'transparent';
 
 // Page's background
 document.body.style.backgroundImage = "url('absolute-cinema.webp')";
@@ -11,7 +12,6 @@ document.body.style.backgroundRepeat = "no-repeat";
 document.body.style.backgroundSize = "cover"; // Make background image fit the page
 
 // Sketch Mode
-let sketchStatus = false;
 const sketchButton = document.createElement("input");
 sketchButton.type = 'checkbox';
 const sketchLabel = document.createElement("label");
@@ -32,6 +32,8 @@ sketchButton.addEventListener('change', function() {
     });
 
 });
+
+
 
 // Select Mode
 const pencilButton = document.createElement("input");
@@ -87,14 +89,34 @@ eraseAllButton.addEventListener('click', function() {
     // Erase all tiles
     let tiles = document.querySelectorAll('.tile');
     tiles.forEach(til => {
-        til.style.backgroundColor = 'White';   
+        til.style.backgroundColor = defaultColor;   
     });
 
 });
+
+// Color Picker
+const colorPickerButton = document.createElement("input");
+colorPickerButton.type = 'color';
+const colorPickerLabel = document.createElement("label");
+colorPickerLabel.textContent = 'Choose Color';
+colorPickerLabel.style.color = 'white';
+
+let curColor = 'red'; // Default color
+colorPickerButton.value = curColor;
+
+// Color Picker Logics
+colorPickerButton.addEventListener("input", changeColor, false);
+colorPickerButton.addEventListener("change", changeColor, false);
+
+function changeColor() {
+    curColor = this.value;
+  }
+
+
 // Create a container for the control panel
 const controlsContainer = document.createElement("div");
 controlsContainer.style.backgroundColor = 'black';
-controlsContainer.style.width = '500px';
+controlsContainer.style.width = '700px';
 controlsContainer.style.display = "flex";
 controlsContainer.style.justifyContent = "center";
 controlsContainer.style.alignItems = "center";
@@ -114,6 +136,8 @@ controlsContainer.appendChild(eraseLabel);
 
 controlsContainer.appendChild(eraseAllButton);
 
+controlsContainer.appendChild(colorPickerButton);
+controlsContainer.appendChild(colorPickerLabel);
 // Add the container to the body
 document.body.appendChild(controlsContainer);
 
@@ -133,7 +157,7 @@ function createGrid() {
         for (let j = 0; j < noRows; j++) {
             let tile = document.createElement("div");
             tile.className = "tile";
-            tile.style.backgroundColor = 'White'; 
+            tile.style.backgroundColor = defaultColor; 
             tile.style.width = '30px';  
             tile.style.height = '30px'; 
             tile.style.border = "1px solid black";
@@ -151,14 +175,28 @@ function sketchMouseEnter() {
 }
 
 function sketchMouseLeave() {
-    this.style.backgroundColor = 'red';
+    this.style.backgroundColor = curColor;
 }
 
 function pencilMouseClick() {
-    this.style.backgroundColor = 'red';
+    this.style.backgroundColor = curColor;
 }
 
 function eraser() {
-    this.style.backgroundColor = 'white';
+    this.style.backgroundColor = defaultColor;
 }
+
 createGrid();
+
+// Auto-select the sketch mode when enter site
+sketchButton.checked = true;
+let tiles = document.querySelectorAll('.tile');
+tiles.forEach(til => {
+    if(sketchButton.checked) {
+        til.addEventListener('mouseover', sketchMouseLeave);
+        }
+    else {
+        til.removeEventListener('mouseover', sketchMouseLeave);          
+    }
+});
+
