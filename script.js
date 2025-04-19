@@ -6,10 +6,9 @@ const noColumns = 16;
 
 // Page's background
 document.body.style.backgroundImage = "url('absolute-cinema.webp')";
-document.body.style.backgroundSize = "contain";
 document.body.style.backgroundPosition = "center";
 document.body.style.backgroundRepeat = "no-repeat";
-document.body.style.backgroundSize = "100% 180%";
+document.body.style.backgroundSize = "cover"; // Make background image fit the page
 
 // Sketch Mode
 let sketchStatus = false;
