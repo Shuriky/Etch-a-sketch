@@ -1,12 +1,30 @@
 console.log("hello world")
 document.title = "Etch-A-Sketch"
+document.body.style.fontFamily = "Arial, sans-serif";
 
 let noRows = 16;
 let noColumns = 16;
 const defaultColor = 'transparent';
 
+// Page Heading
+const pageHeading = document.createElement('h1');
+pageHeading.textContent = "Etch-A-Sketch";
+pageHeading.style.display = 'flex';
+pageHeading.style.fontSize = '80px';
+pageHeading.style.justifyContent = 'center';
+document.body.appendChild(pageHeading);
+
+// Credits
+const subHeading = document.createElement('h2');
+subHeading.textContent = "Created by Shuriky (April 2025)";
+subHeading.style.display = 'flex';
+subHeading.style.fontSize = '15px';
+subHeading.style.justifyContent = 'center';
+subHeading.style.marginTop = '-50px';
+document.body.appendChild(subHeading);
+
 // Page's background
-document.body.style.backgroundImage = "url('absolute-cinema.webp')";
+// document.body.style.backgroundImage = "url('absolute-cinema.webp')";
 document.body.style.backgroundPosition = "center";
 document.body.style.backgroundRepeat = "no-repeat";
 document.body.style.backgroundSize = "cover"; // Make background image fit the page
@@ -15,8 +33,8 @@ document.body.style.backgroundSize = "cover"; // Make background image fit the p
 const sketchButton = document.createElement("input");
 sketchButton.type = 'checkbox';
 const sketchLabel = document.createElement("label");
-sketchLabel.textContent = 'Sketch Mode'
-sketchLabel.style.color = 'white';
+sketchLabel.textContent = 'Sketch Mode:'
+// sketchLabel.style.color = 'white';
 
 // Add event listener to the checkbox to detect changes 
 sketchButton.addEventListener('change', function() {
@@ -35,12 +53,12 @@ sketchButton.addEventListener('change', function() {
 
 
 
-// Select Mode
+// Click Mode
 const pencilButton = document.createElement("input");
 pencilButton.type = 'checkbox';
 const pencilLabel = document.createElement("label");
-pencilLabel.textContent = 'Select Mode';
-pencilLabel.style.color = 'white';
+pencilLabel.textContent = 'Click Mode:';
+// pencilLabel.style.color = 'white';
 
 // Add event listener to the checkbox to detect changes 
 pencilButton.addEventListener('change', function() {
@@ -61,8 +79,8 @@ pencilButton.addEventListener('change', function() {
 const eraseButton = document.createElement("input");
 eraseButton.type = 'checkbox';
 const eraseLabel = document.createElement("label");
-eraseLabel.textContent = 'Eraser'
-eraseLabel.style.color = 'white';
+eraseLabel.textContent = 'Eraser:'
+// eraseLabel.style.color = 'white';
 
 // Add event listener to the checkbox to detect changes 
 eraseButton.addEventListener('change', function() {
@@ -73,7 +91,14 @@ eraseButton.addEventListener('change', function() {
             til.addEventListener('mousedown', eraser);
             }
         else {
-            til.removeEventListener('mousedown', eraser);          
+            til.removeEventListener('mousedown', eraser); 
+            til.removeEventListener('mouseover', eraser);         
+        }
+        if(sketchButton.checked && eraseButton.checked) {
+            til.addEventListener('mouseover', eraser);
+            }
+        else {
+            til.removeEventListener('mouseover', eraser);          
         }
     });
 
@@ -99,8 +124,8 @@ let curColor = 'black'; // Default color
 const colorPickerButton = document.createElement("input");
 colorPickerButton.type = 'color';
 const colorPickerLabel = document.createElement("label");
-colorPickerLabel.textContent = 'Choose Color';
-colorPickerLabel.style.color = 'white';
+colorPickerLabel.textContent = 'Choose Color:';
+// colorPickerLabel.style.color = 'white';
 colorPickerButton.value = curColor;
 
 // Color Picker Logics
@@ -139,17 +164,17 @@ function changeGridWidth(event) {
 
 const gridSizeLabel = document.createElement("label");
 gridSizeLabel.textContent = 'Change Grid Size: ';
-gridSizeLabel.style.color = 'white';
+// gridSizeLabel.style.color = 'white';
 
 const x = document.createElement("label");
 x.textContent = 'x';
-x.style.color = 'white';
+// x.style.color = 'white';
 x.style.marginLeft = '-10px';
 x.style.marginRight = '-10px';
 
 // Create a container for the control panel
 const controlsContainer = document.createElement("div");
-controlsContainer.style.backgroundColor = 'black';
+// controlsContainer.style.backgroundColor = 'black';
 controlsContainer.style.width = '1000px';
 controlsContainer.style.display = "flex";
 controlsContainer.style.justifyContent = "center";
