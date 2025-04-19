@@ -1,2 +1,3 @@
-Etch-a-sketch made 99% from Javascript (1% HTML for page initialization)
-https://shuriky.github.io/Etch-a-sketch/
+Etch-a-sketch made 98% from Javascript (2% HTML for page initialization) \n
+I do this specifically to practice manipulating DOM using Javascript \n
+https://shuriky.github.io/Etch-a-sketch/ \n

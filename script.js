@@ -1,8 +1,8 @@
 console.log("hello world")
 document.title = "Etch-A-Sketch"
 
-const noRows = 16;
-const noColumns = 16;
+let noRows = 16;
+let noColumns = 16;
 const defaultColor = 'transparent';
 
 // Page's background
@@ -95,13 +95,12 @@ eraseAllButton.addEventListener('click', function() {
 });
 
 // Color Picker
+let curColor = 'black'; // Default color
 const colorPickerButton = document.createElement("input");
 colorPickerButton.type = 'color';
 const colorPickerLabel = document.createElement("label");
 colorPickerLabel.textContent = 'Choose Color';
 colorPickerLabel.style.color = 'white';
-
-let curColor = 'red'; // Default color
 colorPickerButton.value = curColor;
 
 // Color Picker Logics
@@ -112,11 +111,46 @@ function changeColor() {
     curColor = this.value;
   }
 
+// Change grid size
+let widthInput = document.createElement("input");
+widthInput.className = 'inputNumber';
+widthInput.type = 'number';
+widthInput.value = noColumns;
+
+let heightInput = document.createElement("input");
+heightInput.className = 'inputNumber';
+heightInput.type = 'number';
+heightInput.value = noRows;
+
+widthInput.addEventListener("change", changeGridWidth);
+heightInput.addEventListener("change", changeGridHeight);
+
+function changeGridHeight(event) {
+    noRows = event.target.value;
+    deleteGrid();
+    createGrid();
+}
+
+function changeGridWidth(event) {
+    noColumns = event.target.value;
+    deleteGrid();
+    createGrid();
+}
+
+const gridSizeLabel = document.createElement("label");
+gridSizeLabel.textContent = 'Change Grid Size: ';
+gridSizeLabel.style.color = 'white';
+
+const x = document.createElement("label");
+x.textContent = 'x';
+x.style.color = 'white';
+x.style.marginLeft = '-10px';
+x.style.marginRight = '-10px';
 
 // Create a container for the control panel
 const controlsContainer = document.createElement("div");
 controlsContainer.style.backgroundColor = 'black';
-controlsContainer.style.width = '700px';
+controlsContainer.style.width = '1000px';
 controlsContainer.style.display = "flex";
 controlsContainer.style.justifyContent = "center";
 controlsContainer.style.alignItems = "center";
@@ -125,23 +159,31 @@ controlsContainer.style.padding = "10px";
 controlsContainer.style.margin = "30px auto 50px auto"; // top, right/left, bottom
 
 // Append inputs and labels to the container
-controlsContainer.appendChild(sketchButton);    
+controlsContainer.appendChild(gridSizeLabel);
+controlsContainer.appendChild(widthInput);
+controlsContainer.appendChild(x);
+controlsContainer.appendChild(heightInput);
+
+controlsContainer.appendChild(colorPickerLabel);
+controlsContainer.appendChild(colorPickerButton);
+
 controlsContainer.appendChild(sketchLabel);
+controlsContainer.appendChild(sketchButton);    
 
-controlsContainer.appendChild(pencilButton);
 controlsContainer.appendChild(pencilLabel);
+controlsContainer.appendChild(pencilButton);
 
-controlsContainer.appendChild(eraseButton);
 controlsContainer.appendChild(eraseLabel);
+controlsContainer.appendChild(eraseButton);
 
 controlsContainer.appendChild(eraseAllButton);
 
-controlsContainer.appendChild(colorPickerButton);
-controlsContainer.appendChild(colorPickerLabel);
-// Add the container to the body
 document.body.appendChild(controlsContainer);
 
-// Color picker
+let inputNumbers = document.querySelectorAll('.inputNumber');
+inputNumbers.forEach(box => {
+    box.style.width = '30px';
+});
 
 // Create the grid
 function createGrid() {
@@ -168,6 +210,14 @@ function createGrid() {
         container.appendChild(row);
     }
     document.body.appendChild(container);
+}
+
+// Delete the Grid
+function deleteGrid() {
+    tiles = document.querySelectorAll('.tile');
+    tiles.forEach(tile => {
+        tile.remove();
+    })
 }
 
 function sketchMouseEnter() {
